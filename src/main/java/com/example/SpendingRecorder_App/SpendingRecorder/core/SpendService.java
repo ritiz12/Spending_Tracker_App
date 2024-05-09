@@ -56,4 +56,29 @@ public class SpendService {
         return  new GetPreviousRecordResponse(page);
     }
 
+   public GetMonthWiseResponse getMonthlyRecord(final GetMonthWiseRequest request) {
+        Date date = new Date();
+       Calendar calendar = Calendar.getInstance();
+       calendar.setTime(date);
+       String currentMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+       String currentYear = String.valueOf(calendar.get(Calendar.YEAR));
+       String currentMonthYear = currentYear + "" + currentMonth;
+       Integer currentMonthYearLong = Integer.parseInt(currentMonthYear);
+       String previousMonth = String.valueOf(calendar.get(Calendar.MONTH) - 2 );
+       String previousYear = String.valueOf(calendar.get(Calendar.YEAR) - 3 );
+
+       String previousMonthYear = previousYear + "" + previousMonth;
+       Integer previousMonthYearLong = Integer.parseInt(previousMonthYear);
+       List<GetMonthWiseSummary> monthlyRecordList = spendRepository.getMonthlyAmount(currentMonthYearLong , previousMonthYearLong);
+       final var response = new GetMonthWiseResponse();
+       for(var record : monthlyRecordList)
+       {
+           response.addMonthlyRecord(new GetMonthWiseSummary(record.getTotalAmount() , record.getPurchaseMonth() , record.getPurchaseYear()));
+       }
+       return response ;
+    }
+
+
+
+
 }
