@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/spend")
 @RestController()
+@CrossOrigin(origins = "http://localhost:5173")
 public class SpendAPI {
 
     @Autowired
     SpendService spendService ;
 
+    @CrossOrigin
     @PostMapping("/save")
     public ResponseEntity<SaveDataResponse> saveSpendingData(@RequestBody SaveDataRequest request)
     {
@@ -21,6 +23,7 @@ public class SpendAPI {
 
     }
 
+   // @CrossOrigin
     @GetMapping("/previousRecord")
     public ResponseEntity<GetPreviousRecordResponse> getPreviousRecord( GetPreviousRecordRequest request)
     {
@@ -28,6 +31,7 @@ public class SpendAPI {
         return ResponseEntity.ok(response);
     }
 
+   // @CrossOrigin
    @GetMapping("/monthlyRecord")
     public ResponseEntity<GetMonthWiseResponse> getMonthlyRecord(GetMonthWiseRequest request)
     {

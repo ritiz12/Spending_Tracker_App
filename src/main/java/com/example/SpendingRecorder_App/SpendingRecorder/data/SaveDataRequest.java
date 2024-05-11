@@ -12,7 +12,10 @@ public class SaveDataRequest {
 
     final private Currency currency ;
 
-    public SaveDataRequest(BigDecimal amount, Date purchaseDate, String product , Currency currency) {
+    public SaveDataRequest(final BigDecimal amount,
+                           final Date purchaseDate,
+                           final String product ,
+                           final Currency currency) {
         this.amount = amount;
         this.purchaseDate = purchaseDate;
         this.product = product;

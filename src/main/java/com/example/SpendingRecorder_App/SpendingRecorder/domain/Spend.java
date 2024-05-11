@@ -79,7 +79,14 @@ public class Spend {
     }
 
     public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+
+        if(amount != null) {
+            this.amount = amount;
+        }
+        else
+        {
+            throw new IllegalArgumentException("Amount Field is Mandatory");
+        }
     }
 
     public Date getPurchaseDate() {
@@ -87,7 +94,14 @@ public class Spend {
     }
 
     public void setPurchaseDate(Date purchaseDate) {
-        this.purchaseDate = purchaseDate;
+
+        if(purchaseDate != null) {
+            this.purchaseDate = purchaseDate;
+        }
+        else
+        {
+            throw new IllegalArgumentException("PurchaseDate Field is Mandatory");
+        }
     }
 
     public Integer getPurchaseMonth() {
@@ -95,7 +109,14 @@ public class Spend {
     }
 
     public void setPurchaseMonth(Integer purchaseMonth) {
-        this.purchaseMonth = purchaseMonth;
+
+        if(purchaseMonth != null) {
+            this.purchaseMonth = purchaseMonth;
+        }
+        else
+        {
+            throw new IllegalArgumentException("PurchaseMonth Field is Mandatory");
+        }
     }
 
     public String getProduct() {
@@ -103,7 +124,16 @@ public class Spend {
     }
 
     public void setProduct(String product) {
-        this.product = product;
+
+        if(product != null)
+        {
+            this.product = product;
+        }
+        else
+        {
+            throw new IllegalArgumentException("Product Field is Mandatory");
+        }
+
     }
 
     public Integer getPurchaseYear() {
@@ -111,7 +141,13 @@ public class Spend {
     }
 
     public void setPurchaseYear(Integer purchaseYear) {
-        this.purchaseYear = purchaseYear;
+        if(purchaseYear != null) {
+            this.purchaseYear = purchaseYear;
+        }
+        else
+        {
+            throw new IllegalArgumentException(" purchaseYear Field is Mandatory");
+        }
     }
 
     public Currency getCurrency() {
@@ -119,6 +155,13 @@ public class Spend {
     }
 
     public void setCurrency(Currency currency) {
-        this.currency = currency;
+        if(currency != null) {
+            this.currency = currency;
+        }
+        else
+        {
+            throw new IllegalArgumentException("Currency Field is Mandatory");
+        }
     }
 }
+

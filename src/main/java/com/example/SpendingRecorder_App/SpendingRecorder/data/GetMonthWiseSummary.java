@@ -1,6 +1,7 @@
 package com.example.SpendingRecorder_App.SpendingRecorder.data;
 
 import java.math.BigDecimal;
+import java.util.Currency;
 
 public class GetMonthWiseSummary
 {
@@ -9,10 +10,13 @@ public class GetMonthWiseSummary
     private Integer purchaseMonth;
     private Integer purchaseYear;
 
-    public GetMonthWiseSummary(BigDecimal totalAmount, Integer purchaseMonth, Integer purchaseYear) {
+    private Currency currency ;
+
+    public GetMonthWiseSummary(BigDecimal totalAmount, Integer  purchaseMonth, Integer purchaseYear , Currency currency) {
         this.totalAmount = totalAmount;
         this.purchaseMonth = purchaseMonth;
         this.purchaseYear = purchaseYear;
+        this.currency = currency ;
     }
 
     public BigDecimal getTotalAmount() {
@@ -37,5 +41,13 @@ public class GetMonthWiseSummary
 
     public void setPurchaseYear(Integer purchaseYear) {
         this.purchaseYear = purchaseYear;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 }

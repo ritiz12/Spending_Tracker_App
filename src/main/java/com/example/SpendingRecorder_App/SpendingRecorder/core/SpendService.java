@@ -18,6 +18,18 @@ public class SpendService {
     @Autowired
     SpendRepository spendRepository ;
     public SaveDataResponse saveSpendingData(final SaveDataRequest request) {
+        if(request.getProduct() == null || request.getAmount() == null || request.getCurrency() == null || request.getPurchaseDate() == null)
+        {
+            throw new IllegalArgumentException("Please Enter Complete Details");
+        }
+
+        Date todayDate = new Date();
+
+        if(request.getPurchaseDate().after(todayDate) )
+        {
+            throw new IllegalArgumentException("Date In Future is not Possible");
+        }
+
         Calendar calendar = Calendar.getInstance();
          Date date = request.getPurchaseDate();
         calendar.setTime(date);
@@ -25,6 +37,7 @@ public class SpendService {
         Integer purchaseYear = calendar.get(Calendar.YEAR)   ;
         SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy", Locale.ENGLISH);
         String formattedDate = formatter.format(date);
+        System.out.println(request.getPurchaseDate());
      Spend spend = new Spend(request.getProduct(),request.getAmount() , request.getCurrency() , request.getPurchaseDate() , purchaseMonth , purchaseYear );
       spendRepository.save(spend);
 
@@ -41,11 +54,13 @@ public class SpendService {
 
 
     public GetPreviousRecordResponse getPreviousRecord(final GetPreviousRecordRequest request) {
-        Pageable pageable = PageRequest.of(0, 100, Sort.by(Sort.Direction.DESC, "purchaseDate"));
+        Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "purchaseDate"));
         Page<Spend> spendPage = spendRepository.findAll(pageable);
+
         if(spendPage.isEmpty()) {
             throw new IllegalStateException("No Previous Data is Found");
         }
+
         List<GetPreviousRecordSummary> spendRecordList = new ArrayList<>();
         for(Spend spend : spendPage.getContent())
         {
@@ -56,7 +71,8 @@ public class SpendService {
         return  new GetPreviousRecordResponse(page);
     }
 
-   public GetMonthWiseResponse getMonthlyRecord(final GetMonthWiseRequest request) {
+
+    public GetMonthWiseResponse getMonthlyRecord(final GetMonthWiseRequest request) {
         Date date = new Date();
        Calendar calendar = Calendar.getInstance();
        calendar.setTime(date);
@@ -70,15 +86,15 @@ public class SpendService {
        String previousMonthYear = previousYear + "" + previousMonth;
        Integer previousMonthYearLong = Integer.parseInt(previousMonthYear);
        List<GetMonthWiseSummary> monthlyRecordList = spendRepository.getMonthlyAmount(currentMonthYearLong , previousMonthYearLong);
+
        final var response = new GetMonthWiseResponse();
        for(var record : monthlyRecordList)
        {
-           response.addMonthlyRecord(new GetMonthWiseSummary(record.getTotalAmount() , record.getPurchaseMonth() , record.getPurchaseYear()));
+
+           response.addMonthlyRecord(new GetMonthWiseSummary(record.getTotalAmount()  , record.getPurchaseYear() , record.getPurchaseMonth() , record.getCurrency()  ));
        }
        return response ;
     }
-
-
 
 
 }
